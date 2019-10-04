@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import{Form , FormGroup, Label, Input, Button } from 'reactstrap';
 import fire from '../Fire';
 
+{/*import { BrowserRouter as Router, Route, Link } from "react-router-dom";*/}
+
 export default class login extends Component {
     constructor(props) {
         super(props);
@@ -10,7 +12,6 @@ export default class login extends Component {
         this.state = {
             email: '',
             senha: '',
-            userType:''
         }
     }
 
@@ -18,6 +19,7 @@ export default class login extends Component {
         e.preventDefault();
         fire.auth().signInWithEmailAndPassword(this.state.email, this.state.senha).then((u) =>{
         }).catch((error) =>{
+            alert(error);
         });
     }
     handleChange(e){
@@ -26,26 +28,29 @@ export default class login extends Component {
     render() {
         return (
             <div className="col-md-6">
-                <Form>
-                    <FormGroup>
-                        <Label for ="email">Email</Label>
-                            <Input value={this.state.email} onChange={this.handleChange} type="email" name="email"placeholder="Digite seu email"/>
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for ="password">Senha</Label>
-                            <Input value={this.state.senha} onChange={this.handleChange} type="senha" name="senha" placeholder="Digite sua senha"/>
-                    </FormGroup>
-                    <FormGroup>
-                    <select>
-                        <option>Selecione a forma de login</option>
-                        <option>Especialista</option>
-                        <option> Admin </option>
-                        
-                    </select>
-                    </FormGroup>
-                    <Button onClick={this.login} color="primary" > Entrar </Button>
-                </Form>
+                    <Form>
+                        <FormGroup>
+                            <Label for ="email">Email</Label>
+                                <Input id= "email" value={this.state.email} onChange={this.handleChange} type="email" name="email"placeholder="Digite seu email"/>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for ="password">Senha</Label>
+                                <Input id="password" value={this.state.senha} onChange={this.handleChange} type="password" name="senha" placeholder="Digite sua senha"/>
+                        </FormGroup>
+                        <FormGroup>
+                        <select>
+                            <option>Selecione a forma de login</option>
+                            <option>Especialista</option>
+                            <option> Admin </option>
+                            
+                        </select>
+                        </FormGroup>
+                        <Button onClick={this.login} color="primary"> Entrar </Button>
+                    </Form>
+                
+
             </div>
+            
         );
     }
 }

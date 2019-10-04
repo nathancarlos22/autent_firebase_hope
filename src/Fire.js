@@ -9,8 +9,11 @@ const Config = {
     projectId: "hope-fcbaf",
     storageBucket: "",
     messagingSenderId: "620975752473",
-    appId: "1:620975752473:web:f81dc2a09fd83a9d013188"
+    appId: "1:620975752473:web:f81dc2a09fd83a9d013188",
+    //credential: admin.credential.cert(GOOGLE_APPLICATION_CREDENTIALS),
+//    credential: admin.credential.applicationDefault()
   };
 
   const fire = firebase.initializeApp(Config)
+  
   export default fire;
