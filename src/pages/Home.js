@@ -7,11 +7,11 @@ import{Form , FormGroup, Label, Input, Button } from 'reactstrap';
 class Home extends Component {
     constructor(props) {
         super(props);
-        //this.logout = this.logout.bind(this);  
+        this.logout = this.logout.bind(this);  
         this.listAllUsers = this.listAllUsers.bind(this) ;
-        this.verifyToken = this.verifyToken.bind(this);
-        
+        //this.verifyToken = this.verifyToken.bind(this);
         this.handleChange = this.handleChange.bind(this);
+
         this.state = {
             email: '',
             senha: '',
@@ -24,7 +24,7 @@ class Home extends Component {
         fire.auth().signOut();
     }
     
-    verifyToken() {
+    /* verifyToken() {
         fire.auth().currentUser.getIdToken(true).then(function(idToken) {
             administra.auth().verifyIdToken(idToken)
             .then(function(decodedToken) {
@@ -38,17 +38,18 @@ class Home extends Component {
           }).catch(function(error) {
             console.log('Erro na verificacao do token:', error);
           });
-    }
+    } */
     
     listAllUsers(nextPageToken) {
         nextPageToken = nextPageToken.Token;
         administra.auth().listUsers(1000, nextPageToken)
-          .then((listUsersResult)=> {
+          .then((listUsersResult) => {            
+            
             listUsersResult.users.forEach((userRecord)=> {
               console.log('user', userRecord.toJSON());
             });
+            
             if (listUsersResult.pageToken) {
-              // List next batch of users.
               this.listAllUsers(listUsersResult.pageToken);
             }
           })
@@ -56,9 +57,8 @@ class Home extends Component {
             console.log('Error listing users:', error);
           });
       }
-      //listAllUsers();
 
-      signUp() {
+      Adicionar() {
         const email = document.querySelector('#email').value;
         const password = document.querySelector('#password').value;
 
@@ -69,7 +69,6 @@ class Home extends Component {
         .catch((err) => {
             alert("error: " + err.toString());
         })
-            
     }
     handleChange(e){
         this.setState({ [e.target.name]: e.target.value });
@@ -83,16 +82,18 @@ class Home extends Component {
             <Form>
                 <FormGroup>
                     <Label for ="email">Email</Label>
-                        <Input id= "email" value={this.state.email} onChange={this.handleChange} type="email" name="email"placeholder="Digite seu email"/>
+                    <Input id= "email" value={this.state.email} onChange={this.handleChange} type="email" name="email"placeholder="Email"/>
                 </FormGroup>
                 <FormGroup>
                     <Label for ="password">Senha</Label>
-                        <Input id="password" value={this.state.senha} onChange={this.handleChange} type="password" name="senha" placeholder="Digite sua senha"/>
-                </FormGroup>
-                {<Button onClick={this.signUp} color="primary" > Adicionar </Button>}
-                {<Button onClick={this.listAllUsers} color="primary"> Listar </Button>}
-                {/*<Button> Editar </Button>*/}
+                    <Input id="password" value={this.state.senha} onChange={this.handleChange} type="password" name="senha" placeholder="Senha"/>
+                </FormGroup>                
             </Form>
+            <Button onClick={this.Adicionar} color="primary" > Adicionar </Button>
+            <Button onClick={this.listAllUsers} color="primary"> Listar </Button>
+            <Button onClick={this.listAllUsers} color="primary"> Editar </Button>
+            <Button onClick={this.listAllUsers} color="primary"> Excluir </Button>
+            {/*<Button> Editar </Button>*/}
         </div>
         );
     }
