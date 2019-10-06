@@ -1,9 +1,9 @@
 import React, { Component} from 'react';
 import{Form , FormGroup, Label, Input, Button } from 'reactstrap';
 import fire from '../Fire'
-import administra from '../admin'
+import { Link } from 'react-router-dom'
 
-class cadastro extends Component {
+class Cadastro extends Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
@@ -11,6 +11,7 @@ class cadastro extends Component {
         this.state = {
             email: '',
             senha: '',
+            user: 'User'
         }
     }
 signUp() {
@@ -30,24 +31,25 @@ handleChange(e){
 }
     render() {
         return (
-            <div>
-              <h2>Cadastro</h2>
-              <Form>
-                        <FormGroup>
-                            <Label for ="email">Email</Label>
-                            <Input id= "email" value={this.state.email} onChange={this.handleChange} type="email" name="email"placeholder="Digite seu email"/>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for ="password">Senha</Label>
-                            <Input id="password" value={this.state.senha} onChange={this.handleChange} type="password" name="senha" placeholder="Digite sua senha"/>
-                        </FormGroup>
-                        <FormGroup id= "ButtomsLogin">
-                            {<Button onClick={this.signUp}> Cadastrar</Button>}
-                        </FormGroup>
-                    </Form>
+            <div className="col-md-6">
+                <h1>Cadatro</h1>                        
+                <Form>
+                    <FormGroup>
+                        <Label for ="email">Email</Label>
+                        <Input id= "email" value={this.state.email} onChange={this.handleChange} type="email" name="email"placeholder="Digite seu email"/>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for ="password">Senha</Label>
+                        <Input id="password" value={this.state.senha} onChange={this.handleChange} type="password" name="senha" placeholder="Digite sua senha"/>
+                        <Input type="checkbox" name="CheckAdmin" value="Admin"/> Admin?
+                    </FormGroup>
+                    <FormGroup>
+                        <Button onClick={this.signUp} > Cadastrar </Button>
+                        <Link to="/"><Button>Voltar</Button> </Link>
+                    </FormGroup>
+                </Form>
             </div>
           );
     }
   }
-
-export default cadastro;
+  export default Cadastro;

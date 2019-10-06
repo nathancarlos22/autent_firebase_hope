@@ -1,13 +1,7 @@
 import React, {Component} from 'react';
 import{Form , FormGroup, Label, Input, Button } from 'reactstrap';
 import fire from '../Fire';
-import {
-    BrowserRouter as Router,
-    Route,
-    Link,
-    Redirect,
-    withRouter
-  } from "react-router-dom";
+import {BrowserRouter as Router,  Link,} from "react-router-dom";
   import cadastro from './cadastro.js'
   import App from '../App'
 
@@ -22,6 +16,7 @@ export default class login extends Component {
         this.state = {
             email: '',
             senha: '',
+            user: 'User'
         }
     }
 
@@ -46,38 +41,26 @@ export default class login extends Component {
         .catch((err) => {
             alert("error: " + err.toString());
         })
-            
     }
+
     render() {
         return (
-            <Router>
-                <div className="col-md-6">
-                    <h1>Login</h1>                        
-                    <Form>
-                        <FormGroup>
-                            <Label for ="email">Email</Label>
-                            <Input id= "email" value={this.state.email} onChange={this.handleChange} type="email" name="email"placeholder="Digite seu email"/>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for ="password">Senha</Label>
-                            <Input id="password" value={this.state.senha} onChange={this.handleChange} type="password" name="senha" placeholder="Digite sua senha"/>
-                        </FormGroup>
-                        <FormGroup>
-                            <Button onClick={this.login} > Entrar </Button>
-                            <Link to = "/Cadastro"> 
-                                <Button>Cadastrar</Button> 
-                            </Link>
-                            {/*<Button onClick={this.signUp}> Cadastrar</Button>*/}
-                        </FormGroup>
-                    </Form>
-                    <hr/>
-                    {<Route exact path="/Cadastro" component={cadastro} />}
-                    
-                </div>
-            </Router>
-
-            
-            
+            <div className="col-md-6">
+                <h1>Login</h1>                        
+                <Form>
+                    <FormGroup>
+                        <Label for ="email">Email</Label>
+                        <Input id= "email" value={this.state.email} onChange={this.handleChange} type="email" name="email"placeholder="Digite seu email"/>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for ="password">Senha</Label>
+                        <Input id="password" value={this.state.senha} onChange={this.handleChange} type="password" name="senha" placeholder="Digite sua senha"/>
+                    </FormGroup>
+                    <FormGroup>
+                        <Button onClick={this.login} > Entrar </Button>
+                    </FormGroup>
+                </Form>
+            </div>
         );
     }
 }
