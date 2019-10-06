@@ -11,7 +11,6 @@ const admini = {
     messagingSenderId: "620975752473",
     appId: "1:620975752473:web:f81dc2a09fd83a9d013188",
     //credential: admin.credential.applicationDefault(),
-    databaseURL: "https://hope-fcbaf.firebaseio.com",
     serviceAccountId: "firebase-adminsdk-ow2fg@hope-fcbaf.iam.gserviceaccount.com"
 
   };

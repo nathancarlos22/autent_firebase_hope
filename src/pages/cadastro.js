@@ -23,14 +23,12 @@ signUp() {
     })
     .catch((err) => {
         alert("error: " + err.toString());
-    })
-        
+    })    
 }
 handleChange(e){
     this.setState({ [e.target.name]: e.target.value });
 }
     render() {
-
         return (
             <div>
               <h2>Cadastro</h2>
