@@ -22,14 +22,7 @@ class HomeUser extends Component {
     }
     
     Excluir() {
-        const email = document.querySelector('#email').value;
-        const password = document.querySelector('#password').value;
-
-        fire.auth().signInWithEmailAndPassword(email, password).then((u) =>{
-        }).catch((error) =>{
-            alert(error);
-        });
-
+        
         var user = fire.auth().currentUser;
         user.delete().then(function() {
             }).catch(function(error) {
@@ -48,7 +41,8 @@ class HomeUser extends Component {
                 alert("Sucesso na atualização ")
             })
             .catch(function(error) {
-                console.error(error);
+                alert("Você precisa fazer o login para excluir a conta!");
+                alert(error);
             });  
             
         }
