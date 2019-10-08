@@ -54,7 +54,7 @@ class Home extends Component {
     render(){
         return (
         <div className = "col-md-6">
-          <Button onClick={this.listAllUsers} > Listar </Button>
+          {/* <Button onClick={this.listAllUsers} > Listar </Button> */}
             {this.state.user ? (<HomeUser/>) : (<HomeAdmin/>)}
         </div>
         );
