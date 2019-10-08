@@ -2,10 +2,6 @@ import React, {Component} from 'react';
 import{Form , FormGroup, Label, Input, Button } from 'reactstrap';
 import fire from '../Fire';
 import {BrowserRouter as Router,  Link,} from "react-router-dom";
-  import cadastro from './cadastro.js'
-  import App from '../App'
-
-{/*import { BrowserRouter as Router, Route, Link } from "react-router-dom";*/}
 
 export default class login extends Component {
     constructor(props) {
@@ -16,7 +12,7 @@ export default class login extends Component {
         this.state = {
             email: '',
             senha: '',
-            user: 'User'
+
         }
     }
 
@@ -58,6 +54,7 @@ export default class login extends Component {
                     </FormGroup>
                     <FormGroup>
                         <Button onClick={this.login} > Entrar </Button>
+                        <Link to="/cadastro"><Button>Fazer cadastro</Button> </Link>
                     </FormGroup>
                 </Form>
             </div>

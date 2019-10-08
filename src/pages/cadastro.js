@@ -11,10 +11,11 @@ class Cadastro extends Component {
         this.state = {
             email: '',
             senha: '',
-            user: 'User'
+            
         }
     }
-signUp() {
+
+signUp() { /* Cadastra */
     const email = document.querySelector('#email').value;
     const password = document.querySelector('#password').value;
 
@@ -26,14 +27,15 @@ signUp() {
         alert("error: " + err.toString());
     })    
 }
-handleChange(e){
+
+handleChange(e){ /* "fisga" o valor e altera*/
     this.setState({ [e.target.name]: e.target.value });
 }
     render() {
         return (
             <div className="col-md-6">
                 <h1>Cadatro</h1>                        
-                <Form>
+                <Form className="col-md-7">
                     <FormGroup>
                         <Label for ="email">Email</Label>
                         <Input id= "email" value={this.state.email} onChange={this.handleChange} type="email" name="email"placeholder="Digite seu email"/>
