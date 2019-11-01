@@ -22,6 +22,8 @@ export default class login extends Component {
         }).catch((error) =>{
             alert(error);
         });
+        var user = fire.auth().currentUser;
+        
     }
     handleChange(e){
         this.setState({ [e.target.name]: e.target.value });

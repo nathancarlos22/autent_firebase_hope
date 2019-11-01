@@ -7,27 +7,100 @@ class HomeAdmin extends Component {
     constructor(props) {
         super(props);
         this.logout = this.logout.bind(this);  
-        //this.listAllUsers = this.listAllUsers.bind(this) ;
+        this.listAllUsers = this.listAllUsers.bind(this) ;
         this.handleChange = this.handleChange.bind(this);
 
         this.state = {
             email: '',
             senha: '',
-            uid:'',
-            admin:''
+            
         }
     }
-
-    /* this.setState( { uid: user.uid });
-        this.setState( { admin: user.admin });
-        console.log(this.state.admin) */
 
     logout(){
         fire.auth().signOut();
     }
     
     Excluir() {
-        const email = document.querySelector('#email').value;
+        
+    } 
+    
+    listAllUsers() {
+        fire.database().ref('users').on('value',(data) => {
+            
+            let users = data.val();
+            let keys = data.key;
+            document.getElementById('tableUsers').innerHTML='';
+
+            for (const user in users) {
+                document.getElementById('tableUsers').innerHTML+=`
+                <tr>
+                <td>${users[user].email} </td>
+                <td>${users[user].mod} </td>
+                <td>${users[user].userId} </td>
+              </td>
+                `;
+                console.log(users[user].userId);
+            }
+            
+        });
+        fire.database().ref('users').once('value', function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+              var childKey = childSnapshot.key;
+              var childData = childSnapshot.val();
+              
+              console.log(childKey);
+              console.log(childData);
+            });
+          });
+
+    
+    }
+      Adicionar() {
+        var mod = document.getElementById("CheckAdmin").checked;
+        var email = document.querySelector('#email').value;
+        var password = document.querySelector('#password').value;
+
+        var firebaseRef = fire.database().ref('users');
+
+        fire.auth().createUserWithEmailAndPassword(email, password)
+        .then((u) => {
+            firebaseRef.push({
+                mod: mod,
+                email: fire.auth().currentUser.email,
+                userId: fire.auth().currentUser.uid,
+        })
+        
+        email = '';
+        password = '';
+        mod='';
+        })
+        .catch((err) => {
+            alert("error: " + err.toString());
+        })
+    }
+    
+    Editar(){
+        var email = document.getElementById('email').value;
+        alert(email);
+        
+    }
+    Excluir () {
+        var userId = prompt("Digite o id para excluir:", "uid");
+
+         if (userId == null ||userId == "") {
+            alert("Usuario cancelou o prompt.");
+        } else {
+            fire.database().ref('users/' + userId).remove()
+            .then(function() {
+                alert("Sucesso na atualização ")
+            })
+            .catch(function(error) {
+                alert(error);
+            });  
+        }
+        /* pra pegar o usuario conectado 
+         const email = document.querySelector('#email').value;
         const password = document.querySelector('#password').value;
 
         fire.auth().signInWithEmailAndPassword(email, password).then((u) =>{
@@ -38,61 +111,7 @@ class HomeAdmin extends Component {
         var user = fire.auth().currentUser;
         user.delete().then(function() {
             }).catch(function(error) {
-        });
-    } 
-    
-    /* listAllUsers(nextPageToken) {
-        fire.auth().listUsers(1000, nextPageToken)
-        .then(function(listUsersResult) {
-            listUsersResult.users.forEach(function(userRecord) {
-            console.log('user', userRecord.toJSON());
-            });
-            //if (listUsersResult.pageToken) {
-            //this.listAllUsers(listUsersResult.pageToken);
-            //}
-        })
-        .catch(function(error) {
-            console.log('Error listing users:', error);
-        });
-      } */
-
-      Adicionar() {
-        const email = document.querySelector('#email').value;
-        const password = document.querySelector('#password').value;
-
-        fire.auth().createUserWithEmailAndPassword(email, password)
-        .then((u) => {
-            alert("sucesso ao cadastrar");
-        })
-        .catch((err) => {
-            alert("error: " + err.toString());
-        })
-    }
-    
-    Editar(){
-        /* const email = document.querySelector('#email').value;
-        const password = document.querySelector('#password').value;
-
-        fire.auth().signInWithEmailAndPassword(email, password).then((u) =>{
-        }).catch((error) =>{
-            alert(error);
         }); */
-
-        var txt;
-        var senhaModify = prompt("Edite sua senha:", "password");
-
-        if (senhaModify == null ||senhaModify == "") {
-            txt = "User cancelled the prompt.";
-        } else {
-            fire.auth().currentUser.updatePassword(senhaModify)
-            .then(function() {
-                alert("Sucesso na atualização ")
-            })
-            .catch(function(error) {
-                console.error(error);
-            });  
-            
-        }
     }
     
     handleChange(e){
@@ -101,9 +120,10 @@ class HomeAdmin extends Component {
 
     render(){
         return (
-        <div className = "col-md-6">
-             <h1>Home Admin</h1>
+        <div>
+             
             <FormGroup>
+                <h1>Home Admin</h1>
                 <button id="LogoutButton" onClick= {this.logout}>Logout</button>
             </FormGroup>
              <Form>
@@ -111,15 +131,37 @@ class HomeAdmin extends Component {
                     <Label for ="email">Email</Label>
                     <Input id= "email" value={this.state.email} onChange={this.handleChange} type="email" name="email"placeholder="Email"/>
                 </FormGroup>
+                
                 <FormGroup>
-                    <Label for ="password">Senha</Label>
+                    <Label for ="password">Senha</Label>                    
                     <Input id="password" value={this.state.senha} onChange={this.handleChange} type="password" name="senha" placeholder="Senha"/>
+                    <Input type="checkbox" id="CheckAdmin" value="Admin" /* onChange={this.admin} *//> Admin?
+                </FormGroup>
+
+                <Button onClick={this.Adicionar} color="primary" > Adicionar </Button> 
+                <Button onClick={this.listAllUsers} color="primary"> Listar </Button>  
+                <Button onClick={this.Editar} color="primary"> Editar</Button>
+                <Button onClick={this.Excluir} color="primary"> Excluir</Button>
+                
+                <FormGroup className='col-md-8'>
+                    <table className="table table-bordered p-3 m-3">
+                        <thead >
+                            <tr>
+                                <th scope ='col'>Email</th>
+                                <th scope ='col'>Admin?</th>
+                                <th scope ='col'>Id</th>
+
+                            </tr>
+                        </thead>
+                        
+                        <tbody id = "tableUsers">
+                    
+                        </tbody>
+                    </table>
                 </FormGroup>                 
             </Form>
-             <Button onClick={this.Adicionar} color="primary" > Adicionar </Button> 
-             <Button onClick={this.listAllUsers} color="primary"> Listar </Button>  
-             <Button onClick={this.Editar} color="primary"> Editar senha</Button>
-            <Button onClick={this.Excluir} color="primary"> Excluir conta</Button> 
+             
+              
         </div>
         );
     }

@@ -8,6 +8,7 @@ class Cadastro extends Component {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.signUp = this.signUp.bind(this);
+        
         this.state = {
             email: '',
             senha: '',
@@ -16,24 +17,38 @@ class Cadastro extends Component {
     }
 
 signUp() { /* Cadastra */
-    const email = document.querySelector('#email').value;
-    const password = document.querySelector('#password').value;
+
+    var mod = false;
+    var email = document.querySelector('#email').value;
+    var password = document.querySelector('#password').value;
 
     fire.auth().createUserWithEmailAndPassword(email, password)
     .then((u) => {
         alert("sucesso ao cadastrar");
+        fire.database().ref('users').push({
+            mod: mod,
+            email: fire.auth().currentUser.email,
+            userId: fire.auth().currentUser.uid,
+
+        })
+        fire.auth().signOut();
+        email = '';
+        password = '';
+        mod='';
     })
     .catch((err) => {
         alert("error: " + err.toString());
-    })    
+    })
+   
 }
 
 handleChange(e){ /* "fisga" o valor e altera*/
     this.setState({ [e.target.name]: e.target.value });
 }
+
     render() {
         return (
-            <div className="col-md-6">
+            <div className="col-md-7">
                 <h1>Cadatro</h1>                        
                 <Form className="col-md-7">
                     <FormGroup>
@@ -43,7 +58,7 @@ handleChange(e){ /* "fisga" o valor e altera*/
                     <FormGroup>
                         <Label for ="password">Senha</Label>
                         <Input id="password" value={this.state.senha} onChange={this.handleChange} type="password" name="senha" placeholder="Digite sua senha"/>
-                        <Input type="checkbox" name="CheckAdmin" value="Admin"/> Admin?
+                        
                     </FormGroup>
                     <FormGroup>
                         <Button onClick={this.signUp} > Cadastrar </Button>

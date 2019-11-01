@@ -13,7 +13,7 @@ class HomeUser extends Component {
             email: '',
             senha: '',
             uid:'',
-            admin:''
+    
         }
     }
 
@@ -60,8 +60,8 @@ class HomeUser extends Component {
                 <button id="LogoutButton" onClick= {this.logout}>Logout</button>
             </FormGroup>
             
-            <Button onClick={this.EditarSenha} color="primary"> Editar senha</Button>
-            <Button onClick={this.Excluir} color="primary"> Excluir conta</Button>
+            <Button onClick={this.EditarSenha} color="primary"> Editar sua senha</Button>
+            <Button onClick={this.Excluir} color="primary"> Excluir sua conta</Button>
             
         </div>
         );
