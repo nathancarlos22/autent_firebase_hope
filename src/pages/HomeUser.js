@@ -22,10 +22,26 @@ class HomeUser extends Component {
     }
     
     Excluir() {
-        
         var user = fire.auth().currentUser;
-        user.delete().then(function() {
-            }).catch(function(error) {
+
+        fire.database().ref('users').once('value', function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+              var childKey = childSnapshot.key;  // pega a key e os filhos do banco de dados
+              var childData = childSnapshot.val();
+              
+              if(childData.userId == user.uid) { //se o id do banco de dados for igual ao digitado
+                
+                fire.database().ref('users/' + childKey).remove().then(function(){
+                    alert("uid: " + childData.userId + "key: " + childKey +"usuario deletado no banco de dados");
+                }); 
+                
+                user.delete().then(function() {
+                    alert("usuario deletado no autenticador");
+                }).catch(function(error) {
+                    alert(error);
+                });
+              }
+            });
         });
     } 
     

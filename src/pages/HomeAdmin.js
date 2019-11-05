@@ -21,10 +21,6 @@ class HomeAdmin extends Component {
         fire.auth().signOut();
     }
     
-    Excluir() {
-        
-    } 
-    
     listAllUsers() {
         fire.database().ref('users').on('value',(data) => {
             
@@ -40,21 +36,9 @@ class HomeAdmin extends Component {
                 <td>${users[user].userId} </td>
               </td>
                 `;
-                console.log(users[user].userId);
             }
             
         });
-        fire.database().ref('users').once('value', function(snapshot) {
-            snapshot.forEach(function(childSnapshot) {
-              var childKey = childSnapshot.key;
-              var childData = childSnapshot.val();
-              
-              console.log(childKey);
-              console.log(childData);
-            });
-          });
-
-    
     }
       Adicionar() {
         var mod = document.getElementById("CheckAdmin").checked;
@@ -91,12 +75,34 @@ class HomeAdmin extends Component {
          if (userId == null ||userId == "") {
             alert("Usuario cancelou o prompt.");
         } else {
-            fire.database().ref('users/' + userId).remove()
-            .then(function() {
-                alert("Sucesso na atualização ")
-            })
+            fire.database().ref('users').once('value', function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
+                  var childKey = childSnapshot.key;  // pega a key e os filhos do banco de dados
+                  var childData = childSnapshot.val();
+                  
+                  if(childData.userId == userId) { //se o id do banco de dados for igual ao digitado
+                    var pass = prompt("Digite a senha da conta que deseja excluir:", "senha");
+
+                    fire.auth().signOut();
+
+                    fire.auth().signInWithEmailAndPassword(childData.email, pass).then((u) =>{
+                    }).catch((error) =>{
+                        console.log(error);
+                    });
+            
+                    var userConectado = fire.auth().currentUser;
+                    userConectado.delete().then(function() {
+                        }).catch(function(error) {
+                    })
+                    fire.auth().signOut();
+                    
+                    fire.database().ref('users/' + childKey).remove();
+                    
+                  }
+                });
+              })
             .catch(function(error) {
-                alert(error);
+                console.log(error);
             });  
         }
         /* pra pegar o usuario conectado 

@@ -21,25 +21,19 @@ signUp() { /* Cadastra */
     var mod = false;
     var email = document.querySelector('#email').value;
     var password = document.querySelector('#password').value;
+    var firebaseRef = fire.database().ref('users');
 
     fire.auth().createUserWithEmailAndPassword(email, password)
-    .then((u) => {
+    .then(() => {
         alert("sucesso ao cadastrar");
-        fire.database().ref('users').push({
+        firebaseRef.push({
             mod: mod,
             email: fire.auth().currentUser.email,
             userId: fire.auth().currentUser.uid,
-
         })
-        fire.auth().signOut();
-        email = '';
-        password = '';
-        mod='';
-    })
-    .catch((err) => {
+    }).catch((err) => {
         alert("error: " + err.toString());
-    })
-   
+    });
 }
 
 handleChange(e){ /* "fisga" o valor e altera*/
@@ -61,7 +55,7 @@ handleChange(e){ /* "fisga" o valor e altera*/
                         
                     </FormGroup>
                     <FormGroup>
-                        <Button onClick={this.signUp} > Cadastrar </Button>
+                        <Button onClick={this.signUp}> Cadastrar </Button>
                         <Link to="/"><Button>Voltar</Button> </Link>
                     </FormGroup>
                 </Form>

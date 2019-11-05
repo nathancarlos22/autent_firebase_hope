@@ -55,9 +55,10 @@ export default class login extends Component {
                         <Input id="password" value={this.state.senha} onChange={this.handleChange} type="password" name="senha" placeholder="Digite sua senha"/>
                     </FormGroup>
                     <FormGroup>
-                        <Button onClick={this.login} > Entrar </Button>
+                        <Button type='submit' onClick= {this.login} > Entrar </Button> 
                         <Link to="/cadastro"><Button>Fazer cadastro</Button> </Link>
                     </FormGroup>
+                    
                 </Form>
             </div>
         );

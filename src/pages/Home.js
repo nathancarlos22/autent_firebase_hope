@@ -43,6 +43,7 @@ class Home extends Component {
         return (
         <div className = "col-md-6">
             {this.state.admin ? (<HomeAdmin/>) : (<HomeUser/>)}
+            {/* <HomeAdmin/> */}
             
         </div>
         );
