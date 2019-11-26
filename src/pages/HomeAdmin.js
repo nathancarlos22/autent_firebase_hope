@@ -23,9 +23,13 @@ class HomeAdmin extends Component {
     
     listAllUsers() {
         fire.database().ref('users').on('value',(data) => {
+
+            console.log(data.val());
             
             let users = data.val();
+
             let keys = data.key;
+            console.log(keys);
             document.getElementById('tableUsers').innerHTML='';
 
             for (const user in users) {

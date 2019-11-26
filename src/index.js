@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import Cadastro from './pages/Cadastro';
+import Cadastro from './pages/cadastro';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 import * as serviceWorker from './serviceWorker';
